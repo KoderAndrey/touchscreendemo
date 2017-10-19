@@ -25,6 +25,7 @@ public class TVCursorView extends View {
     private int controlHeight = -1;
     private float widthRatio = 1.0f;
     private float heightRatio = 1.0f;
+    private float top, bottom, start, end;
 
     public TVCursorView(Context context) {
         super(context);
@@ -57,7 +58,11 @@ public class TVCursorView extends View {
         ready = true;
         x = (float) (getWidth() / 2) - (float) (bitmapWidth);
         y = (float) (getHeight() / 2) - (float) (bitmapHeight / 2);
-        calcuulateRatio();
+        this.top = - bitmap.getHeight() / 2;
+        this.start = -bitmap.getWidth() / 2;
+        this.bottom = getWidth() - bitmap.getHeight() / 2;
+        this.end = getHeight() - bitmap.getHeight() / 2;
+        calculateRatio();
     }
 
     @Override
@@ -70,17 +75,19 @@ public class TVCursorView extends View {
         controlWidth = width;
         controlHeight = height;
         if (ready) {
-            calcuulateRatio();
+            calculateRatio();
         }
     }
 
     public void move(float angle, double distance) {
-        x = (float) (x + Math.cos(angle) * distance);
-        y = (float) (y + Math.sin(angle) * distance);
+        x = (float) (x + Math.cos(angle) * distance * widthRatio);
+        y = (float) (y + Math.sin(angle) * distance * heightRatio);
+        y = y > top ? (y > bottom ? bottom : y) : top;
+        x = x > start ? (x > end ? end : x) : start ;
         invalidate();
     }
 
-    private void calcuulateRatio() {
+    private void calculateRatio() {
         if (controlWidth == -1 && controlHeight == -1) return;
         final int width = getWidth();
         final int height = getHeight();
