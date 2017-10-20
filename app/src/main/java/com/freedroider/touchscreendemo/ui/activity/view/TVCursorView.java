@@ -61,8 +61,8 @@ public class TVCursorView extends View {
         y = (float) (getHeight() / 2) - (float) (bitmapHeight / 2);
         this.top = -bitmap.getHeight() / 2;
         this.start = -bitmap.getWidth() / 2;
-        this.bottom = getWidth() - bitmap.getHeight() / 2;
-        this.end = getHeight() - bitmap.getHeight() / 2;
+        this.bottom = getHeight() - bitmap.getWidth() / 2;
+        this.end = getWidth() - bitmap.getHeight() / 2;
         calculateRatio();
     }
 
