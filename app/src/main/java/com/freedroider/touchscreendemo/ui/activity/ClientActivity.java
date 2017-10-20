@@ -48,6 +48,12 @@ public class ClientActivity extends BaseActivity implements UDPHelper.BroadcastL
     }
 
     @Override
+    protected void onDestroy() {
+        stopService(intent);
+        super.onDestroy();
+    }
+
+    @Override
     protected int obtainLayoutResId() {
         return R.layout.activity_client;
     }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.support.annotation.IntDef;
 
 import com.freedroider.touchscreendemo.constant.Constant;
 import com.freedroider.touchscreendemo.looper.UPDLooperThread;
@@ -57,7 +58,13 @@ public class MyService extends Service implements UDPHelper.BroadcastListener {
     public void onDestroy() {
         Logger.d(TAG, "onDestroy");
         unregisterReceiver(mScreenStateReceiver);
+        thread.setLoop(false);
         super.onDestroy();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override

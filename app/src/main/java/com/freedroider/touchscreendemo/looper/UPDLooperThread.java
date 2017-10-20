@@ -11,6 +11,7 @@ import android.os.Message;
 
 public class UPDLooperThread extends Thread {
     private Handler handler;
+    private boolean loop = true;
 
     @Override
     public void run() {
@@ -21,11 +22,14 @@ public class UPDLooperThread extends Thread {
                 // process incoming messages here
             }
         };
-        Looper.loop();
+        if (loop) Looper.loop();
     }
 
     public void send(Runnable runnable) {
         handler.post(runnable);
     }
 
+    public void setLoop(boolean loop) {
+        this.loop = loop;
+    }
 }
