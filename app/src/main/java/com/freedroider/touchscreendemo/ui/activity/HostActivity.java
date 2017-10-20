@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.TextView;
 
 import com.freedroider.touchscreendemo.R;
+import com.freedroider.touchscreendemo.service.MyService;
 import com.freedroider.touchscreendemo.service.ReceiveService;
 import com.freedroider.touchscreendemo.utils.Logger;
 
@@ -34,15 +35,15 @@ public class HostActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Logger.d("HostActivity onCreate");
-        startService(new Intent(this, ReceiveService.class));
+        startService(new Intent(this, MyService.class));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
-        IntentFilter filterShape = new IntentFilter(ReceiveService.INTENT_SHAPE);
-        IntentFilter filterCoordinates = new IntentFilter(ReceiveService.INTENT_COORDINATES);
+        IntentFilter filterShape = new IntentFilter(MyService.INTENT_FILTER_SHAPE);
+        IntentFilter filterCoordinates = new IntentFilter(MyService.INTENT_FILTER_COORDINATES);
         manager.registerReceiver(mMessageReceiver, filterShape);
         manager.registerReceiver(mMessageReceiver, filterCoordinates);
     }
@@ -62,11 +63,11 @@ public class HostActivity extends BaseActivity {
             String message = intent.getStringExtra("message");
             Logger.d("BroadcastReceiver onReceive " + message);
 
-            if (intent.getAction().equals(ReceiveService.INTENT_SHAPE)) {
+            if (intent.getAction().equals(MyService.INTENT_FILTER_SHAPE)) {
 //                Ratio ratio =  ParserUtils.sActionSize(message);
 //                Logger.d("BroadcastReceiver onReceive Ratio" + "\n" + ratio.getWidth()
 //                        + "\n" + ratio.getHeight());
-            } else if (intent.getAction().equals(ReceiveService.INTENT_COORDINATES)) {
+            } else if (intent.getAction().equals(MyService.INTENT_FILTER_COORDINATES)) {
 //                ControlAction controlAction = ParserUtils.sActionCoordinates(message);
 //                Logger.d("BroadcastReceiver onReceive ControlAction" + "\n" + controlAction.getAngle()
 //                        + "\n" + controlAction.getDistance());
