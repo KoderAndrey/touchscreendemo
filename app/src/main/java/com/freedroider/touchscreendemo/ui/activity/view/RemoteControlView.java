@@ -10,12 +10,16 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.freedroider.touchscreendemo.utils.SystemUtils;
+
+import static java.lang.Math.abs;
+
 public class RemoteControlView extends View {
 
     public interface OnRemoteControlListener {
         void onSizeReady(int width, int height);
 
-        void onMove(float angle, double distance);
+        void onMove(float dx, float dy);
     }
 
     private static final float TOUCH_TOLERANCE = 4;
@@ -57,15 +61,15 @@ public class RemoteControlView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 start(x, y);
-                invalidate();
+                postInvalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
                 move(x, y);
-                invalidate();
+                postInvalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 up();
-                invalidate();
+                postInvalidate();
                 break;
         }
         return true;
@@ -101,7 +105,7 @@ public class RemoteControlView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeWidth(12);
+        paint.setStrokeWidth(SystemUtils.convertDpToPixel(getContext(), 4f));
     }
 
     private void start(float x, float y) {
@@ -112,14 +116,12 @@ public class RemoteControlView extends View {
     }
 
     private void move(float x, float y) {
-        float dx = Math.abs(x - this.x);
-        float dy = Math.abs(y - this.y);
-        float angel = (float) (Math.atan2(y - this.y, x - this.x));
-        double distance = Math.hypot(dx, dy);
+        float dx = (x - this.x);
+        float dy = (y - this.y);
         if (controlListener != null) {
-            controlListener.onMove(angel, distance);
+            controlListener.onMove(dx, dy);
         }
-        if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
+        if (abs(dx) >= TOUCH_TOLERANCE || abs(dy) >= TOUCH_TOLERANCE) {
             path.quadTo(this.x, this.y, (x + this.x) / 2, (y + this.y) / 2);
             this.x = x;
             this.y = y;
