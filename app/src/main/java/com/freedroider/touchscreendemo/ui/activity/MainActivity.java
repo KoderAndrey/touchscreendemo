@@ -30,8 +30,8 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onMove(float angle, double distance) {
-                viewTvCursor.move(angle, distance);
+            public void onMove(float dx, float dy) {
+                viewTvCursor.move(dx, dy);
             }
         });
 

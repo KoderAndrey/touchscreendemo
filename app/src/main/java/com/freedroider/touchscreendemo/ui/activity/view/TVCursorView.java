@@ -79,12 +79,12 @@ public class TVCursorView extends View {
         }
     }
 
-    public void move(float angle, double distance) {
-        x = (float) (x + Math.cos(angle) * distance * widthRatio);
-        y = (float) (y + Math.sin(angle) * distance * heightRatio);
+    public void move(float dx, float dy) {
+        x = x + dx * widthRatio;
+        y = y + dy * heightRatio;
         y = y > top ? (y > bottom ? bottom : y) : top;
         x = x > start ? (x > end ? end : x) : start ;
-        invalidate();
+        postInvalidate();
     }
 
     private void calculateRatio() {
