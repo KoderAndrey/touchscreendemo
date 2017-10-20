@@ -11,7 +11,7 @@ public abstract class Logger {
 
     public static void d(@NonNull String tag, @NonNull String message) {
         if (BuildConfig.DEBUG) {
-            Log.d(tag, message);
+            Log.e(tag, message);
         }
     }
 
