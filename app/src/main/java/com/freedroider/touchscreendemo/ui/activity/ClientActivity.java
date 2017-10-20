@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class ClientActivity extends BaseActivity implements UDPHelper.BroadcastListener {
+public class ClientActivity extends BaseActivity {
     @BindView(R.id.viewRemoteControl)
     TVCursorView tvCursorView;
     Intent intent;
@@ -60,10 +60,5 @@ public class ClientActivity extends BaseActivity implements UDPHelper.BroadcastL
     public static void start(Context context) {
         Intent starter = new Intent(context, ClientActivity.class);
         context.startActivity(starter);
-    }
-
-    @Override
-    public void onReceive(String msg, String ip) {
-        Logger.d(msg);
     }
 }
