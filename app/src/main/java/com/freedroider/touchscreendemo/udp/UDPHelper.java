@@ -16,14 +16,19 @@ public class UDPHelper extends Thread {
     private Context context;
     private DatagramSocket socket;
     private static final int PORT = 5050;
+    private DatagramSocket clientSocket;
 
     public UDPHelper(Context context, BroadcastListener listener) {
         this.listener = listener;
         this.context = context;
+        try {
+            this.clientSocket = new DatagramSocket();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
     }
 
     public void send(String msg) {
-        DatagramSocket clientSocket;
         try {
             clientSocket = new DatagramSocket();
             clientSocket.setBroadcast(true);

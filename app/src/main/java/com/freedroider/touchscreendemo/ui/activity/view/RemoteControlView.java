@@ -10,8 +10,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.freedroider.touchscreendemo.utils.Logger;
-
 public class RemoteControlView extends View {
 
     public interface OnRemoteControlListener {
@@ -86,11 +84,10 @@ public class RemoteControlView extends View {
     }
 
     private void updateSizeReady() {
-        if(controlListener != null && ready) {
+        if (controlListener != null && ready) {
             controlListener.onSizeReady(getWidth(), getHeight());
         }
     }
-
 
     private void init() {
         circlePaint.setAntiAlias(true);
@@ -119,7 +116,7 @@ public class RemoteControlView extends View {
         float dy = Math.abs(y - this.y);
         float angel = (float) (Math.atan2(y - this.y, x - this.x));
         double distance = Math.hypot(dx, dy);
-        if(controlListener != null) {
+        if (controlListener != null) {
             controlListener.onMove(angel, distance);
         }
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
