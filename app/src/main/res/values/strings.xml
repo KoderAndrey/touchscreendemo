@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TouchScreenDemo</string>
+    <string name="client_button">Start client</string>
+    <string name="host_button">Start host</string>
 </resources>
