@@ -11,10 +11,7 @@ import android.widget.TextView;
 
 import com.freedroider.touchscreendemo.R;
 import com.freedroider.touchscreendemo.ReceiveService;
-import com.freedroider.touchscreendemo.model.ControlAction;
-import com.freedroider.touchscreendemo.model.Ratio;
 import com.freedroider.touchscreendemo.utils.Logger;
-import com.freedroider.touchscreendemo.utils.ParserUtils;
 
 import butterknife.BindView;
 
@@ -66,13 +63,13 @@ public class HostActivity extends BaseActivity {
             Logger.d("BroadcastReceiver onReceive " + message);
 
             if (intent.getAction().equals(ReceiveService.INTENT_SHAPE)) {
-                Ratio ratio =  ParserUtils.sActionSize(message);
-                Logger.d("BroadcastReceiver onReceive Ratio" + "\n" + ratio.getWidth()
-                        + "\n" + ratio.getHeight());
+//                Ratio ratio =  ParserUtils.sActionSize(message);
+//                Logger.d("BroadcastReceiver onReceive Ratio" + "\n" + ratio.getWidth()
+//                        + "\n" + ratio.getHeight());
             } else if (intent.getAction().equals(ReceiveService.INTENT_COORDINATES)) {
-                ControlAction controlAction = ParserUtils.sActionCoordinates(message);
-                Logger.d("BroadcastReceiver onReceive ControlAction" + "\n" + controlAction.getAngle()
-                        + "\n" + controlAction.getDistance());
+//                ControlAction controlAction = ParserUtils.sActionCoordinates(message);
+//                Logger.d("BroadcastReceiver onReceive ControlAction" + "\n" + controlAction.getAngle()
+//                        + "\n" + controlAction.getDistance());
             }
 
             info.setText(message);
