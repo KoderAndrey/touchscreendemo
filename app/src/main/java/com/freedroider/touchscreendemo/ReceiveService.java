@@ -14,6 +14,8 @@ import java.util.List;
 
 public class ReceiveService extends Service {
 
+    public static final String INTENT_SHAPE = "INTENT_SHAPE";
+    public static final String INTENT_COORDINATES = "INTENT_COORDINATES";
     UDPHelperByMaster udp;
     Pinger pinger;
     List<String> ips = Collections.synchronizedList(new LinkedList<String>());
@@ -55,12 +57,13 @@ public class ReceiveService extends Service {
                     public void onReceive(String msg, String ip) {
                         Logger.d(" Pinger receive message " + msg + " from " + ip);
                         //// TODO: 20.10.2017 block ip; use only one ip
-                        sendMessage(msg);
-//                        if (!ips.contains(ip)) {
-//                            ips.add(ip);
-//                            Logger.d("onReceive ips" + ips.toString());
-//
-//                        }
+                        if (!ips.contains(ip)) {
+                            ips.add(ip);
+                            Logger.d("onReceive ips" + ips.toString());
+                            sendMessage(msg, INTENT_SHAPE);
+                        }
+                        sendMessage(msg, INTENT_COORDINATES);
+
                     }
                 });
                 udp.start();
@@ -69,15 +72,6 @@ public class ReceiveService extends Service {
                 e.printStackTrace();
             }
             running = true;
-//            while (running) {
-//                try {
-//                    udp.send("!PING!");
-//                    Logger.d("ping sended ....");
-//                    sleep(1000);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
         }
 
         public void end() {
@@ -88,8 +82,8 @@ public class ReceiveService extends Service {
         }
     }
 
-    private void sendMessage(String msg ) {
-        Intent intent = new Intent("my-message");
+    private void sendMessage(String msg, String filter) {
+        Intent intent = new Intent(filter);
         intent.putExtra("message", msg);
         Logger.d("sendMessage");
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);

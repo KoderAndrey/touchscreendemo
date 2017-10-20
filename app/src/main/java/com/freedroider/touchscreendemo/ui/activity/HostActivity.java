@@ -9,13 +9,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.TextView;
 
-import com.freedroider.touchscreendemo.ReceiveService;
 import com.freedroider.touchscreendemo.R;
+import com.freedroider.touchscreendemo.ReceiveService;
+import com.freedroider.touchscreendemo.model.ControlAction;
+import com.freedroider.touchscreendemo.model.Ratio;
 import com.freedroider.touchscreendemo.utils.Logger;
+import com.freedroider.touchscreendemo.utils.ParserUtils;
 
 import butterknife.BindView;
 
-public class HostActivity extends BaseActivity{
+public class HostActivity extends BaseActivity {
 
     @BindView(R.id.info)
     TextView info;
@@ -40,9 +43,11 @@ public class HostActivity extends BaseActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this)
-                .registerReceiver(mMessageReceiver,
-                        new IntentFilter("my-message"));
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        IntentFilter filterShape = new IntentFilter(ReceiveService.INTENT_SHAPE);
+        IntentFilter filterCoordinates = new IntentFilter(ReceiveService.INTENT_COORDINATES);
+        manager.registerReceiver(mMessageReceiver, filterShape);
+        manager.registerReceiver(mMessageReceiver, filterCoordinates);
     }
 
     @Override
@@ -56,8 +61,19 @@ public class HostActivity extends BaseActivity{
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
-            String message  = intent.getStringExtra("message");
+            String message = intent.getStringExtra("message");
             Logger.d("BroadcastReceiver onReceive " + message);
+
+            if (intent.getAction().equals(ReceiveService.INTENT_SHAPE)) {
+                Ratio ratio =  ParserUtils.sActionSize(message);
+                Logger.d("BroadcastReceiver onReceive Ratio" + "\n" + ratio.getWidth()
+                        + "\n" + ratio.getHeight());
+            } else if (intent.getAction().equals(ReceiveService.INTENT_COORDINATES)) {
+                ControlAction controlAction = ParserUtils.sActionCoordinates(message);
+                Logger.d("BroadcastReceiver onReceive ControlAction" + "\n" + controlAction.getAngle()
+                        + "\n" + controlAction.getDistance());
+            }
+
             info.setText(message);
         }
     };
