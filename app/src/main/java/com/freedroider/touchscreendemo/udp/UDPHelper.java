@@ -23,6 +23,7 @@ public class UDPHelper extends Thread {
         this.context = context;
         try {
             this.clientSocket = new DatagramSocket();
+            clientSocket.setBroadcast(true);
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -30,8 +31,6 @@ public class UDPHelper extends Thread {
 
     public void send(String msg) {
         try {
-            clientSocket = new DatagramSocket();
-            clientSocket.setBroadcast(true);
             byte[] sendData = msg.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(
                     sendData, sendData.length, getBroadcastAddress(), PORT);

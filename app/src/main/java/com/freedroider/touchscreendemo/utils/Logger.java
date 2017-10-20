@@ -10,7 +10,7 @@ public abstract class Logger {
     private static final String DEFAULT_TAG = "Default Log =>>";
 
     public static void d(@NonNull String tag, @NonNull String message) {
-        if (false) {
+        if (BuildConfig.DEBUG) {
             Log.e(tag, message);
         }
     }
