@@ -27,10 +27,6 @@
         <activity android:name=".ui.activity.HostActivity" />
 
         <service
-            android:name=".service.ReceiveService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name=".service.MyService"
             android:enabled="true"
             android:exported="true" />

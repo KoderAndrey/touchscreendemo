@@ -17,8 +17,8 @@ public class UDPHelper extends Thread {
     private DatagramSocket socket;
     private static final int PORT = 5050;
 
-    public UDPHelper(Context context){
-        this.listener = ((BroadcastListener) context);
+    public UDPHelper(Context context, BroadcastListener listener) {
+        this.listener = listener;
         this.context = context;
     }
 

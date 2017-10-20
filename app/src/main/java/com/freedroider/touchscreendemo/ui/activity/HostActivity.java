@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.freedroider.touchscreendemo.R;
 import com.freedroider.touchscreendemo.service.MyService;
-import com.freedroider.touchscreendemo.service.ReceiveService;
 import com.freedroider.touchscreendemo.utils.Logger;
 
 import butterknife.BindView;

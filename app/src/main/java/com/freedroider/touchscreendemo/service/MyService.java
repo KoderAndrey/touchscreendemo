@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MyService extends Service implements UDPHelper.BroadcastListener {
+public class MyService extends Service {
     public static final String INTENT_FILTER_SHAPE = "INTENT_FILTER_SHAPE";
     public static final String INTENT_FILTER_COORDINATES = "INTENT_FILTER_COORDINATES";
     public static final String ACTION_SEND_DATA = "send data";
@@ -61,7 +61,6 @@ public class MyService extends Service implements UDPHelper.BroadcastListener {
         pinger.run();
         this.registerReceiver(mScreenStateReceiver, filter);
         Logger.d(TAG, "onCreate");
-        udp = new UDPHelper(this);
     }
 
     @Override
@@ -78,19 +77,6 @@ public class MyService extends Service implements UDPHelper.BroadcastListener {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override
-    public void onReceive(String msg, String ip) {
-        Logger.d(TAG, "onReceive");
-        Logger.d(" Pinger receive message " + msg + " from " + ip);
-        //// TODO: 20.10.2017 block ip; use only one ip
-        if (!ips.contains(ip)) {
-            ips.add(ip);
-            Logger.d("onReceive ips" + ips.toString());
-            sendMessage(msg, INTENT_FILTER_SHAPE);
-        }
-        sendMessage(msg, INTENT_FILTER_COORDINATES);
-    }
-
     private class Pinger extends Thread {
         private boolean running;
 
@@ -98,12 +84,24 @@ public class MyService extends Service implements UDPHelper.BroadcastListener {
         public void run() {
             Logger.d("ReceiveService Pinger run");
             Logger.d("ReceiveService Pinger try");
-            udp = new UDPHelper(getApplicationContext());
+            udp = new UDPHelper(getApplicationContext(), new UDPHelper.BroadcastListener() {
+                @Override
+                public void onReceive(String msg, String ip) {
+                    Logger.d(" Pinger receive message " + msg + " from " + ip);
+                    //// TODO: 20.10.2017 block ip; use only one ip
+                    if (!ips.contains(ip)) {
+                        ips.add(ip);
+                        Logger.d("onReceive ips" + ips.toString());
+                        sendMessage(msg, INTENT_FILTER_SHAPE);
+                    }
+                    sendMessage(msg, INTENT_FILTER_COORDINATES);
+                }
+            });
             udp.start();
             running = true;
         }
 
-        public void end() {
+        void end() {
             Logger.d("ReceiveService Pinger end");
             running = false;
             udp.end();
