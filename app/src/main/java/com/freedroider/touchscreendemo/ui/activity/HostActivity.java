@@ -9,16 +9,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.freedroider.touchscreendemo.R;
+import com.freedroider.touchscreendemo.model.ControlAction;
+import com.freedroider.touchscreendemo.model.Ratio;
 import com.freedroider.touchscreendemo.service.MyService;
 import com.freedroider.touchscreendemo.ui.activity.view.TVCursorView;
 import com.freedroider.touchscreendemo.utils.Logger;
+import com.freedroider.touchscreendemo.utils.ParserUtils;
 
 import butterknife.BindView;
 
 public class HostActivity extends BaseActivity {
 
     @BindView(R.id.viewTvCursor)
-    TVCursorView tvCursorView;
+    TVCursorView viewTvCursor;
 
     @Override
     protected int obtainLayoutResId() {
@@ -52,25 +55,20 @@ public class HostActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(this)
                 .unregisterReceiver(mMessageReceiver);
         super.onPause();
-
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Extract data included in the Intent
             String message = intent.getStringExtra("message");
-            Logger.d("BroadcastReceiver onReceive " + message);
-
-            // TODO: 20.10.17 set cursor
             if (intent.getAction().equals(MyService.INTENT_FILTER_SHAPE)) {
-//                Ratio ratio =  ParserUtils.sActionSize(message);
-//                Logger.d("BroadcastReceiver onReceive Ratio" + "\n" + ratio.getWidth()
-//                        + "\n" + ratio.getHeight());
+                Ratio ratio = ParserUtils.sActionSize(message);
+                if (ratio.getHeight() != 0) {
+                    viewTvCursor.calculateRatio(ratio.getWidth(), ratio.getHeight());
+                }
             } else if (intent.getAction().equals(MyService.INTENT_FILTER_COORDINATES)) {
-//                ControlAction controlAction = ParserUtils.sActionCoordinates(message);
-//                Logger.d("BroadcastReceiver onReceive ControlAction" + "\n" + controlAction.getAngle()
-//                        + "\n" + controlAction.getDistance());
+                ControlAction controlAction = ParserUtils.sActionCoordinates(message);
+                viewTvCursor.move(controlAction.getAngle(), controlAction.getDistance());
             }
         }
     };
