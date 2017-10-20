@@ -55,6 +55,7 @@ public class HostActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(this)
                 .unregisterReceiver(mMessageReceiver);
         super.onPause();
+
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
