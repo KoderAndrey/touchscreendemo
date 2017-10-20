@@ -23,6 +23,7 @@ public class ClientActivity extends BaseActivity implements RemoteControlView.On
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Logger.d("onCreate");
         intent = new Intent(this, MyService.class);
         startService(intent);
         remoteControlView.setControlListener(this);
@@ -30,6 +31,7 @@ public class ClientActivity extends BaseActivity implements RemoteControlView.On
 
     @Override
     protected void onDestroy() {
+        Logger.d("onDestroy");
         stopService(intent);
         super.onDestroy();
     }
