@@ -1,10 +1,11 @@
-package com.freedroider.touchscreendemo;
+package com.freedroider.touchscreendemo.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.freedroider.touchscreendemo.UDPHelperByMaster;
 import com.freedroider.touchscreendemo.utils.Logger;
 
 import java.io.IOException;

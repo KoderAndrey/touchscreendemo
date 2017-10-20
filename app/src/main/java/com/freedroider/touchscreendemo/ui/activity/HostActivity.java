@@ -10,7 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.TextView;
 
 import com.freedroider.touchscreendemo.R;
-import com.freedroider.touchscreendemo.ReceiveService;
+import com.freedroider.touchscreendemo.service.ReceiveService;
 import com.freedroider.touchscreendemo.utils.Logger;
 
 import butterknife.BindView;
