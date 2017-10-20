@@ -57,9 +57,9 @@ public class ClientActivity extends BaseActivity implements RemoteControlView.On
     }
 
     @Override
-    public void onMove(float angle, double distance) {
+    public void onMove(float dx, float dy) {
         Logger.d("onMove");
-        String json = getApp().getGSON().toJson(new ControlAction(angle, distance));
+        String json = getApp().getGSON().toJson(new ControlAction(dx, dy));
         Intent broadcast = new Intent(MyService.ACTION_SEND_DATA);
         broadcast.putExtra(Constant.INTENT_KEY_JSON, json);
         sendBroadcast(broadcast);

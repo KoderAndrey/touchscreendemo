@@ -19,7 +19,8 @@ public class TVCursorView extends View {
     private Bitmap bitmap;
     private int bitmapWidth;
     private int bitmapHeight;
-    private float x, y;
+    private double x;
+    private double y;
     private boolean ready;
     private int controlWidth = -1;
     private int controlHeight = -1;
@@ -58,7 +59,7 @@ public class TVCursorView extends View {
         ready = true;
         x = (float) (getWidth() / 2) - (float) (bitmapWidth);
         y = (float) (getHeight() / 2) - (float) (bitmapHeight / 2);
-        this.top = - bitmap.getHeight() / 2;
+        this.top = -bitmap.getHeight() / 2;
         this.start = -bitmap.getWidth() / 2;
         this.bottom = getWidth() - bitmap.getHeight() / 2;
         this.end = getHeight() - bitmap.getHeight() / 2;
@@ -68,7 +69,7 @@ public class TVCursorView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap(bitmap, x, y, paint);
+        canvas.drawBitmap(bitmap, (float) x,(float) y, paint);
     }
 
     public void calculateRatio(int width, int height) {
@@ -79,11 +80,11 @@ public class TVCursorView extends View {
         }
     }
 
-    public void move(float dx, float dy) {
+    public void move(double dx, double dy) {
         x = x + dx * widthRatio;
         y = y + dy * heightRatio;
         y = y > top ? (y > bottom ? bottom : y) : top;
-        x = x > start ? (x > end ? end : x) : start ;
+        x = x > start ? (x > end ? end : x) : start;
         postInvalidate();
     }
 

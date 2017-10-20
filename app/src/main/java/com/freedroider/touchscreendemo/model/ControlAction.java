@@ -2,7 +2,7 @@ package com.freedroider.touchscreendemo.model;
 
 public class ControlAction {
 
-    private float angle;
+    private double angle;
     private double distance;
 
     public ControlAction(float angle, double distance) {
@@ -13,11 +13,11 @@ public class ControlAction {
     public ControlAction() {
     }
 
-    public float getAngle() {
+    public double getAngle() {
         return angle;
     }
 
-    public void setAngle(float angle) {
+    public void setAngle(double angle) {
         this.angle = angle;
     }
 
