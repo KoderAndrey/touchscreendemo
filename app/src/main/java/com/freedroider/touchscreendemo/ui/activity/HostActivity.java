@@ -7,18 +7,18 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.TextView;
 
 import com.freedroider.touchscreendemo.R;
 import com.freedroider.touchscreendemo.service.MyService;
+import com.freedroider.touchscreendemo.ui.activity.view.TVCursorView;
 import com.freedroider.touchscreendemo.utils.Logger;
 
 import butterknife.BindView;
 
 public class HostActivity extends BaseActivity {
 
-    @BindView(R.id.info)
-    TextView info;
+    @BindView(R.id.viewTvCursor)
+    TVCursorView tvCursorView;
 
     @Override
     protected int obtainLayoutResId() {
@@ -62,6 +62,7 @@ public class HostActivity extends BaseActivity {
             String message = intent.getStringExtra("message");
             Logger.d("BroadcastReceiver onReceive " + message);
 
+            // TODO: 20.10.17 set cursor
             if (intent.getAction().equals(MyService.INTENT_FILTER_SHAPE)) {
 //                Ratio ratio =  ParserUtils.sActionSize(message);
 //                Logger.d("BroadcastReceiver onReceive Ratio" + "\n" + ratio.getWidth()
@@ -71,8 +72,6 @@ public class HostActivity extends BaseActivity {
 //                Logger.d("BroadcastReceiver onReceive ControlAction" + "\n" + controlAction.getAngle()
 //                        + "\n" + controlAction.getDistance());
             }
-
-            info.setText(message);
         }
     };
 }
